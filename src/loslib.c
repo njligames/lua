@@ -129,7 +129,19 @@ static time_t l_checktime (lua_State *L, int arg) {
 
 static int os_execute (lua_State *L) {
   const char *cmd = luaL_optstring(L, 1, NULL);
-  int stat = system(cmd);
+
+  int stat = 0;
+
+#if defined(__APPLE__)
+#include "TargetConditionals.h"
+
+#if (!defined(TARGET_OS_TV) )
+    {
+    stat = system(cmd);
+    }
+#endif
+#endif
+
   if (cmd != NULL)
     return luaL_execresult(L, stat);
   else {

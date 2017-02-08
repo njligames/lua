@@ -41,6 +41,8 @@ if ( WIN32 AND NOT CYGWIN )
   # Windows systems
   option ( LUA_USE_WINDOWS "Windows specific build." ON )
   option ( LUA_BUILD_WLUA "Build wLua interpretter without console output." ON )
+  option ( LUA_BUILD_LUA "Build lua interpretter." ON )
+  option ( LUA_BUILD_LUAC "Build luac compiler." ON )
   option ( LUA_BUILD_AS_DLL "Build Lua library as Dll." ${BUILD_SHARED_LIBS} )
 
   # Paths (Double escapes needed)
@@ -118,11 +120,15 @@ if ( LUA_BUILD_AS_DLL )
   set_target_properties ( liblua PROPERTIES COMPILE_DEFINITIONS LUA_BUILD_AS_DLL )
 endif ()
 
+if ( LUA_BUILD_LUA )
 add_executable ( lua ${SRC_LUA} src/lua.rc )
 target_link_libraries ( lua liblua )
+endif ( )
 
+if ( LUA_BUILD_LUAC )
 add_executable ( luac ${SRC_CORE} ${SRC_LIB} ${SRC_LUAC} src/luac.rc )
 target_link_libraries ( luac ${LIBS} )
+endif ( )
 
 # On windows a variant of the lua interpreter without console output needs to be built
 if ( LUA_BUILD_WLUA )
@@ -131,7 +137,14 @@ if ( LUA_BUILD_WLUA )
   install_executable ( wlua )
 endif ( )
 
-install_executable ( lua luac )
+if ( LUA_BUILD_LUA )
+install_executable ( lua )
+endif ( )
+
+if ( LUA_BUILD_LUAC )
+install_executable ( luac )
+endif ( )
+
 install_library ( liblua )
 install_data ( README.md )
 #install_lua_module ( strict etc/strict.lua )
