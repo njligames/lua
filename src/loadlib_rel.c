@@ -195,7 +195,11 @@ static void setprogdir(lua_State *L) {
   int pid;
   FILE* fd;
   char cmd[80];
+#if defined(__EMSCRIPTEN__)
+  pid = 0;
+#else
   pid = getpid();
+#endif
 
   sprintf(cmd, "lsof -p %d | awk '{if ($5==\"REG\") { print $9 ; exit}}' 2> /dev/null", pid);
   fd = popen(cmd, "r");
