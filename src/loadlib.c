@@ -1,3 +1,5 @@
+#include "android_file.h"
+
 /*
 ** $Id: loadlib.c,v 1.127 2015/11/23 11:30:45 roberto Exp $
 ** Dynamic library loader for Lua
@@ -22,7 +24,7 @@
 
 #include "lauxlib.h"
 #include "lualib.h"
-
+#include "File.h"
 
 /*
 ** LUA_PATH_VAR and LUA_CPATH_VAR are the names of the environment
@@ -375,7 +377,7 @@ static int ll_loadlib (lua_State *L) {
 
 
 static int readable (const char *filename) {
-  FILE *f = fopen(filename, "r");  /* try to open file */
+  FILE *f = mobile__fopen(filename, "r");  /* try to open file */
   if (f == NULL) return 0;  /* open failed */
   fclose(f);
   return 1;

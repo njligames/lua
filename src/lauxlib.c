@@ -1,3 +1,5 @@
+#include "android_file.h"
+
 /*
 ** $Id: lauxlib.c,v 1.284 2015/11/19 19:16:22 roberto Exp $
 ** Auxiliary functions for building Lua libraries
@@ -24,7 +26,7 @@
 #include "lua.h"
 
 #include "lauxlib.h"
-
+#include "File.h"
 
 /*
 ** {======================================================
@@ -698,7 +700,7 @@ LUALIB_API int luaL_loadfilex (lua_State *L, const char *filename,
   }
   else {
     lua_pushfstring(L, "@%s", filename);
-    lf.f = fopen(filename, "r");
+    lf.f = mobile__fopen(filename, "r");
     if (lf.f == NULL) return errfile(L, "open", fnameindex);
   }
   if (skipcomment(&lf, &c))  /* read initial portion */

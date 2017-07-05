@@ -654,7 +654,8 @@
 ** macro must include header 'locale.h'.)
 */
 #if !defined(lua_getlocaledecpoint)
-#define lua_getlocaledecpoint()		(localeconv()->decimal_point[0])
+//#define lua_getlocaledecpoint()		(localeconv()->decimal_point[0])
+#define lua_getlocaledecpoint()		'.'
 #endif
 
 /* }================================================================== */
@@ -682,7 +683,8 @@
 */
 #if defined(LUA_USE_APICHECK)
 #include <assert.h>
-#define luai_apicheck(l,e)	assert(e)
+//#define luai_apicheck(l,e)	assert(e)
+#define luai_apicheck(l,e)	SDL_assert(e)
 #endif
 
 /* }================================================================== */
